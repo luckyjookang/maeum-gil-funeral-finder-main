@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>마음길 — 전국 장례식장 찾기</title>
+    <meta
+      name="description"
+      content="전국 1,080개 장례식장 공공데이터를 지역별로 찾아보고 위치와 시설 정보를 확인하세요."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="./"
+        ><span class="symbol">✳</span> 마음길
+        <small>곁에서, 함께 찾는 길</small></a
+      >
+      <nav>
+        <a href="#finder">장례식장 찾기</a><a href="#guide">가격 확인 안내</a
+        ><span class="pill">연습용 서비스</span>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">전국 장례식장 안내</div>
+        <h1>마음이 어려운 순간,<br />가까운 곳부터 차분하게.</h1>
+        <p>
+          지역과 시설 정보를 한눈에 살펴보고,<br class="mobile" />
+          가족에게 맞는 장례식장을 찾아보세요.
+        </p>
+        <div class="hero-stats">
+          <span><b>1,080</b>개 시설</span><span><b>17</b>개 시·도</span
+          ><span
+            >보건복지부 공공데이터 <b class="date">2026.04.01 기준</b></span
+          >
+        </div>
+        <div class="flower" aria-hidden="true">✳</div>
+      </section>
+      <section id="finder" class="finder">
+        <div class="section-title">
+          <h2>어느 지역에서 찾으시나요?</h2>
+          <a href="facilities.csv" download>전체 목록 내려받기 ↓</a>
+        </div>
+        <form id="searchForm" class="search">
+          <span aria-hidden="true">⌕</span
+          ><input
+            id="query"
+            aria-label="장례식장명 또는 주소 검색"
+            placeholder="장례식장 이름, 동네 또는 주소를 입력하세요"
+          /><button type="submit">검색</button>
+        </form>
+        <div class="filters">
+          <label
+            >시·도<select id="region">
+              <option value="">전국 전체</option>
+            </select></label
+          ><label
+            >시·군·구<select id="district">
+              <option value="">전체 시·군·구</option>
+            </select></label
+          ><label
+            >운영 구분<select id="type">
+              <option value="">전체 시설</option>
+              <option>공설</option>
+              <option>사설</option>
+            </select></label
+          ><button id="reset" class="secondary">초기화 ↻</button
+          ><a
+            class="near"
+            href="https://map.naver.com/p/search/내%20주변%20장례식장"
+            target="_blank"
+            rel="noopener"
+            >◎ 내 주변 찾기 ↗</a
+          >
+        </div>
+        <div class="region-chips" id="chips"></div>
+        <div class="workspace">
+          <section class="results">
+            <div class="list-heading">
+              <h3 id="resultTitle">전국 장례식장</h3>
+              <span id="count" aria-live="polite">불러오는 중</span>
+            </div>
+            <p class="hint">시설을 선택하면 지도와 상세 정보를 볼 수 있어요.</p>
+            <div id="list"></div>
+            <button id="more" class="secondary more" hidden>더 보기</button>
+          </section>
+          <section class="map-column">
+            <div class="map-head">
+              <span><i></i> 네이버 지도</span><span id="mapLabel">전국</span
+              ><button id="mapFit" type="button">검색 결과 전체 보기</button>
+            </div>
+            <div class="map-wrap" id="mapPanel">
+              <div id="map" aria-label="네이버 지도" hidden></div>
+              <p
+                id="mapSummary"
+                class="map-summary"
+                role="status"
+                aria-live="polite"
+              >
+                장례식장 위치를 불러오는 중입니다.
+              </p>
+              <div id="naverFallback" class="naver-fallback">
+                <span class="naver-mark" aria-hidden="true">N</span>
+                <h3 id="naverPlace">전국 장례식장</h3>
+                <p id="mapStatus" role="status">
+                  사이트 내 지도는 연결 준비 중입니다.<br />네이버 지도에서
+                  위치와 길찾기를 확인하세요.
+                </p>
+                <a
+                  id="naverOpen"
+                  href="https://map.naver.com/p/search/장례식장"
+                  target="_blank"
+                  rel="noopener"
+                  >네이버 지도에서 보기 ↗</a
+                ><small>새 탭에서 열립니다</small>
+              </div>
+            </div>
+            <div class="map-note">
+              네이버 지도 · 방문 전 실제 위치를 확인해 주세요.
+              <a
+                id="mapFallback"
+                href="https://map.naver.com/p/search/장례식장"
+                target="_blank"
+                rel="noopener"
+                >큰 지도 ↗</a
+              >
+            </div>
+            <div id="detail" class="detail">
+              <div class="eyebrow">시설 상세정보</div>
+              <h3>목록에서 장례식장을 선택해 주세요</h3>
+              <p>주소, 연락처와 빈소·주차 정보를 확인할 수 있습니다.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section id="guide" class="guide">
+        <div>
+          <div class="eyebrow">가격은 같은 기준으로</div>
+          <h2>총액보다 먼저,<br />포함된 항목을 확인하세요.</h2>
+          <p>
+            현재 시설 데이터에는 가격이 포함되어 있지 않습니다.<br />확인되지
+            않은 금액은 표시하지 않습니다.
+          </p>
+          <a href="https://www.15774129.go.kr/" target="_blank" rel="noopener"
+            >e하늘 장사정보에서 확인 ↗</a
+          >
+        </div>
+        <div class="price-items">
+          <div><b>01　빈소 사용료</b><span>면적 · 1일/시간 단위</span></div>
+          <div>
+            <b>02　안치료 · 입관료</b><span>이용 기간 · 서비스 포함 여부</span>
+          </div>
+          <div>
+            <b>03　음식 · 장례용품</b><span>조문객 수 · 품목별 단가</span>
+          </div>
+          <div><b>04　추가 비용</b><span>운구 · 인력 · 부가세</span></div>
+        </div>
+      </section>
+      <footer>
+        <b>✳ 마음길</b>
+        <p>
+          출처:
+          <a
+            href="https://www.data.go.kr/data/15143467/fileData.do"
+            target="_blank"
+            rel="noopener"
+            >보건복지부 장례식장 현황</a
+          >
+          · 기준일 2026.04.01 · 1,080건<br />운영 여부, 빈소 이용 가능 여부,
+          최종 가격은 시설에 직접 확인해 주세요. 실시간 예약 서비스가 아닙니다.
+        </p>
+        <small>연습용 사이트 · 위치정보를 저장하지 않습니다.</small>
+      </footer>
+    </main>
+    <script src="map-config.js"></script>
+    <script src="map-model.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
